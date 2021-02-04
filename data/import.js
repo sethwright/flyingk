@@ -1,9 +1,12 @@
 const fs = require("fs");
 const db = require("../server/knex.js");
 
-(async () => {
+module.exports = async () => {
   try {
-    const locations = JSON.parse(fs.readFileSync("../data/locations.json"));
+    //const locations = JSON.parse(fs.readFileSync("../data/locations.json"));
+    const locations = JSON.parse(
+      fs.readFileSync(`${__dirname}/locations.json`)
+    );
     for (const location of locations) {
       const id = location.Site.SiteId;
       const latitude = location.Site.Latitude;
@@ -21,4 +24,4 @@ const db = require("../server/knex.js");
   } catch (err) {
     console.error("Error inserting records", err);
   }
-})();
+};

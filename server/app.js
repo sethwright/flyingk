@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
-const db = require("knex");
+const db = require("./knex");
 
 const app = express();
 
