@@ -8,9 +8,9 @@ const db = knex({
     `postgres://${process.env.USER}@127.0.0.1:5432/truckstop`,
   searchPath: "public",
 
-  migrations: {
-    directory: `${__dirname}/migrations`,
-  },
+  // migrations: {
+  //   directory: `${__dirname}/migrations`,
+  // },
 });
 
 module.exports = db;

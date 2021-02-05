@@ -16,32 +16,64 @@ module.exports = async () => {
       const type = location.FacilitySubtype.Name;
       const longitude = location.Site.Longitude;
       const latitude = location.Site.Latitude;
-      const address = location.Addresses.Address1;
-      const state = location.Addresses.state;
-      const city = location.Addresses.city;
-      const tel = location.ContactMethods[1].Data;
-      const fax = location.ContactMethods[2].Data;
+      const address = location.Addresses[0].Address1;
+      const state = location.Addresses[0].State;
+      const city = location.Addresses[0].City;
+      let telephone;
+      let fax;
       let unleaded;
       let midgrade;
       let premium;
       let diesel;
       let propane;
 
-      //* Getting each of the Fuel Prices
+      // Acquiring unleaded, midgrade, premium, diesel, propane details.
       location.Site.FuelPrices.forEach((gas) => {
-        const fuelType = gas.FuelType;
-        if (fuelType === "Unleaded") {
-          unleaded = gas.CashPrice;
-        } else if (fuelType === "Midgrade") {
-          midgrade = gas.CashPrice;
-        } else if (fuelType === "Premium") {
-          premium = gas.CashPrice;
-        } else if (fuelType === "Dielsel") {
-          diesel = gas.CashPrice;
-        } else if (fuelType === "Propane") {
-          propane = gas.CashPrice;
+        if (gas.DisplayName !== undefined) {
+          switch (gas.DisplayName) {
+            case "UNLEADED":
+              unleaded = gas.CashPrice;
+              break;
+
+            case "MIDGRADE":
+              midgrade = gas.CashPrice;
+              break;
+
+            case "PREMIUM":
+              premium = gas.CashPrice;
+              break;
+
+            case "DIESEL":
+            case "DIESEL B5":
+            case "DIESEL B15":
+              diesel = gas.CashPrice;
+              break;
+
+            case "PROPANE":
+              propane = gas.CashPrice;
+              break;
+
+            default:
+              break;
+          }
         }
+
+        // if (unleaded === undefined) unleaded = "-";
+        // if (midgrade === undefined) midgrade = "-";
+        // if (premium === undefined) premium = "-";
+        // if (diesel === undefined) diesel = "-";
+        // if (propane === undefined) propane = "-";
       });
+
+      // Acquiring contact details.
+
+      for (let contact of location.ContactMethods) {
+        if (contact.Type.Name === "Fax") {
+          fax = contact.Data;
+        } else if (contact.Type.Name === "Main Phone") {
+          telephone = contact.Data;
+        }
+      }
 
       const result = await db("locations").insert({
         id,
@@ -52,7 +84,7 @@ module.exports = async () => {
         address,
         city,
         state,
-        tel,
+        telephone,
         fax,
         unleaded,
         midgrade,

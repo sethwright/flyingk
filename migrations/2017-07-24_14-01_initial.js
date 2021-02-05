@@ -1,4 +1,3 @@
-//latest
 exports.up = function(knex) {
   return knex.schema.createTable("locations", (table) => {
     table.increments().index();
@@ -11,7 +10,6 @@ exports.up = function(knex) {
   });
 };
 
-//rollback
 exports.down = function(knex, Promise) {
   return knex.schema.dropTable("locations");
 };
