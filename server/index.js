@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 9000;
     await db.migrate.rollback();
     console.log("Running migrations : Creating tables");
     await db.migrate.latest();
-    console.log("Running migrations : Injecting data into locations");
+    console.log("Running migrations : Injecting data");
     await seeder();
 
     console.log("Starting express");

@@ -59,12 +59,6 @@ module.exports = async () => {
               break;
           }
         }
-
-        // if (unleaded === undefined) unleaded = "-";
-        // if (midgrade === undefined) midgrade = "-";
-        // if (premium === undefined) premium = "-";
-        // if (diesel === undefined) diesel = "-";
-        // if (propane === undefined) propane = "-";
       });
 
       // Acquiring contact details.
@@ -77,7 +71,7 @@ module.exports = async () => {
         }
       }
 
-      const result = await db("locations").insert({
+      await db("locations").insert({
         id,
         name,
         type,
@@ -94,7 +88,6 @@ module.exports = async () => {
         diesel,
         propane,
       });
-      console.log(result);
 
       //ADDIN TO SERVICES TABLE Check services. Loop through 'ADDITIONAL AMENITIES', 'CUSTOM FIELDS' and 'site.concepts' if service exists, skip. If not, assign value.
       let serviceType;
@@ -108,7 +101,6 @@ module.exports = async () => {
         if (!servicesCache[serviceName]) {
           servicesCache[serviceName] = serviceName;
           // if service is undefined in PSQL, add to services table:
-          //const eachService =
           await db("services").insert({
             serviceType,
             serviceName,
@@ -124,7 +116,35 @@ module.exports = async () => {
 
         if (!servicesCache[serviceName]) {
           servicesCache[serviceName] = serviceName;
-          //const eachService =
+          await db("services").insert({
+            serviceType,
+            serviceName,
+            img,
+          });
+        }
+
+        const locationID = id;
+
+        const serviceObj = await db
+          .from("services")
+          .select("id")
+          .where("serviceName", serviceName);
+
+        const serviceID = serviceObj[0].id; // FIX the bug here
+
+        await db("locations_services").insert({
+          locationID,
+          serviceID,
+        });
+      }
+
+      for (let concept of location.Site.Concepts) {
+        serviceType = "Restaurant";
+        serviceName = concept.Concept.Name;
+        img = concept.Concept.ConceptIcon;
+
+        if (!servicesCache[serviceName]) {
+          servicesCache[serviceName] = serviceName;
           await db("services").insert({
             serviceType,
             serviceName,
@@ -132,21 +152,6 @@ module.exports = async () => {
           });
         }
       }
-
-      // // if service is undefined in PSQL, add to services table:
-      // const servicesResult = await db("services").insert({
-      //   // some stuff here
-      // });
-      // for (let service of location.site.concepts) {
-      //   serviceType;
-      //   serviceName;
-      //   img;
-      // }
-
-      // // if service is undefined in PSQL, add to services table:
-      // const servicesResult = await db("services").insert({
-      //   // some stuff here
-      // });
     }
   } catch (err) {
     console.error("Error inserting records", err);
