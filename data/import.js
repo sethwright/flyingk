@@ -9,6 +9,8 @@ module.exports = async () => {
     const locations = JSON.parse(
       fs.readFileSync(`${__dirname}/locations.json`)
     );
+    const servicesCache = {};
+
     for (const location of locations) {
       // ADDING TO LOCATION TABLE
       const id = location.Site.SiteId;
@@ -94,26 +96,43 @@ module.exports = async () => {
       });
       console.log(result);
 
-      // ADDIN TO SERVICES TABLE Check services. Loop through 'ADDITIONAL AMENITIES', 'CUSTOM FIELDS' and 'site.concepts' if service exists, skip. If not, assign value.
-      // let serviceType;
-      // let serviceName;
-      // let img;
+      //ADDIN TO SERVICES TABLE Check services. Loop through 'ADDITIONAL AMENITIES', 'CUSTOM FIELDS' and 'site.concepts' if service exists, skip. If not, assign value.
+      let serviceType;
+      let serviceName;
+      let img;
 
-      // for (let service of location.AdditionalAmenities) {
-      //   serviceType;
-      //   serviceName;
-      //   img;
-      // }
-      // // if service is undefined in PSQL, add to services table:
-      // const servicesResult = await db("services").insert({
-      //   // some stuff here
-      // });
+      for (let service of location.AdditionalAmenities) {
+        serviceType = "Amenity";
+        serviceName = service.SiteManagementItem.Title;
+        img = undefined;
+        if (!servicesCache[serviceName]) {
+          servicesCache[serviceName] = serviceName;
+          // if service is undefined in PSQL, add to services table:
+          //const eachService =
+          await db("services").insert({
+            serviceType,
+            serviceName,
+            img,
+          });
+        }
+      }
 
-      // for (let service of location.CustomFields) {
-      //   serviceType;
-      //   serviceName;
-      //   img;
-      // }
+      for (let service of location.CustomFields) {
+        serviceType = "Others";
+        serviceName = service.CustomField.Label;
+        img = service.CustomField.FacilityLogo;
+
+        if (!servicesCache[serviceName]) {
+          servicesCache[serviceName] = serviceName;
+          //const eachService =
+          await db("services").insert({
+            serviceType,
+            serviceName,
+            img,
+          });
+        }
+      }
+
       // // if service is undefined in PSQL, add to services table:
       // const servicesResult = await db("services").insert({
       //   // some stuff here
