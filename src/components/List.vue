@@ -1,15 +1,35 @@
 <template>
   <v-container class="listContainer" fluid>
-    <v-card v-for="store in stores" :key="store.name" class="mt-3" hover>
-      <v-card-title>{{ store.name }}</v-card-title>
-      <v-card-subtitle>{{ store.address }}</v-card-subtitle>
-      <v-card-text>{{ store.highway + store.exit }}</v-card-text>
+    <!-- <v-overlay value="false"/> -->
+    <v-card
+      v-for="location in locationObjects"
+      :key="location.name"
+      class="mt-3"
+      hover
+      @click="toggleModal(location)"
+    >
+      <v-card-title>{{ location.name }}</v-card-title>
+      <v-card-subtitle>{{ location.address }}</v-card-subtitle>
     </v-card>
   </v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    this.getLocationObjects;
+  },
+  computed: {
+    locationObjects() {
+      return this.$store.state.locationObjects;
+    },
+  },
+  methods: {
+    toggleModal: function(loc) {
+      this.$store.dispatch("selectLocation", loc);
+    },
+  },
+};
 </script>
 
 <style>

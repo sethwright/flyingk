@@ -11,6 +11,7 @@
     <v-main>
       <Map />
       <List />
+      <Card />
     </v-main>
   </v-app>
 </template>
@@ -19,18 +20,29 @@
 import Map from "./components/Map";
 import SideNav from "./components/SideNav";
 import List from "./components/List";
+import Card from "./components/Card";
 
 export default {
   name: "App",
-
   components: {
     Map,
     SideNav,
     List,
+    Card,
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    selectedLocation: function() {
+      return this.$store.state.selectedLocation;
+    },
+    drawer: function() {
+      return this.$store.state.drawer;
+    },
+  },
+  data: () => ({}),
+  methods: {
+    toggleDrawer: function() {
+      this.$store.commit("setDrawer", !this.$store.state.drawer);
+    },
+  },
 };
 </script>

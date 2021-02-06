@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" class="pl-3" app clipped>
+  <v-navigation-drawer v-model="drawerState" class="pl-3" app clipped>
     <h1 class="mt-6">Location</h1>
     <v-spacer></v-spacer>
     <v-divider></v-divider>
@@ -71,7 +71,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["drawer"],
+  computed: {
+    drawerState: function() {
+      return this.$store.state.drawer;
+    },
+  },
+};
 </script>
 
 <style></style>
