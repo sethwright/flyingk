@@ -25,6 +25,16 @@ app.get("/api/locations", async (req, res) => {
   }
 });
 
+app.get("/api/services", async (req, res) => {
+  try {
+    const services = await db.select().table("services");
+    res.json(services);
+  } catch (err) {
+    console.error("Error loading locations!", err);
+    res.sendStatus(500);
+  }
+});
+
 // Always return the main index.html, since we are developing a single page application
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "dist", "index.html"));

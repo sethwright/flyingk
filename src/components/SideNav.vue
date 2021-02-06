@@ -6,31 +6,31 @@
     <v-select
       item-text="city"
       item-value="city"
-      placeholder="Select State"
-      :items="cities"
-    ></v-select>
-    <v-spacer></v-spacer>
-    <v-select
-      item-text="city"
-      item-value="city"
       placeholder="Select City"
-      :items="cities"
+      :items="locations"
     ></v-select>
     <v-spacer></v-spacer>
     <v-select
-      item-text="city"
-      item-value="city"
-      placeholder="Select Highway"
-      :items="cities"
+      item-text="state"
+      item-value="state"
+      placeholder="Select State"
+      :items="locations"
     ></v-select>
     <v-spacer></v-spacer>
-    <h1 class="mt-6">Truck Services</h1>
+    <v-select
+      item-text="highway"
+      item-value="highway"
+      placeholder="Select Highway"
+      :items="locations"
+    ></v-select>
+    <v-spacer></v-spacer>
+    <h1 class="mt-6">Other Services</h1>
     <v-divider></v-divider>
     <v-select
-      placeholder="Truck Services"
+      placeholder="Other Services"
       item-text="service"
       item-value="service"
-      :items="truckServices"
+      :items="services"
       chips
       multiple
     ></v-select>
@@ -41,7 +41,7 @@
       placeholder="Amenities"
       item-text="amenity"
       item-value="amenity"
-      :items="amenities"
+      :items="services"
       chips
       multiple
     ></v-select>
@@ -52,7 +52,7 @@
       placeholder="Store Type"
       item-text="type"
       item-value="type"
-      :items="locationType"
+      :items="locations"
       chips
       multiple
     ></v-select>
@@ -63,7 +63,7 @@
       placeholder="Restaurants"
       item-text="restaurant"
       item-value="restaurant"
-      :items="restaurants"
+      :items="services"
       chips
       multiple
     ></v-select>
@@ -73,9 +73,23 @@
 <script>
 export default {
   props: ["drawer"],
+  mounted() {
+    this.getServices();
+  },
   computed: {
     drawerState: function() {
       return this.$store.state.drawer;
+    },
+    services() {
+      return this.$store.state.serviceObjects;
+    },
+    locations() {
+      return this.$store.state.locationObjects;
+    },
+  },
+  methods: {
+    getServices: function() {
+      this.$store.dispatch("loadServices");
     },
   },
 };

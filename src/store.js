@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     locations: [],
     locationObjects: [],
+    serviceObjects: [],
     selectedLocation: {},
     drawer: false,
   },
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     setLocationObjects(state, locationObjects) {
       state.locationObjects = locationObjects;
+    },
+    setServiceObjects(state, serviceObjects) {
+      state.serviceObjects = serviceObjects;
     },
     setSelectedLocation(state, selectedLocation) {
       state.selectedLocation = selectedLocation;
@@ -45,6 +49,14 @@ export default new Vuex.Store({
     },
     selectLocation: function({ commit }, loc) {
       commit("setSelectedLocation", loc);
+    },
+    async loadServices({ commit }) {
+      try {
+        const { data: services } = await axios.get("/api.services");
+        commit("setServiceObjects", services);
+      } catch (err) {
+        console.error(err);
+      }
     },
   },
   getters: {
