@@ -9,6 +9,9 @@ export default new Vuex.Store({
     locations: [],
     locationObjects: [],
     serviceObjects: [],
+    amenities: [],
+    others: [],
+    restaurants: [],
     selectedLocation: {},
     drawer: false,
   },
@@ -27,6 +30,15 @@ export default new Vuex.Store({
     },
     setDrawer(state, toggle) {
       state.drawer = toggle;
+    },
+    setAmenities(state, amenities) {
+      state.amenities = amenities;
+    },
+    setOthers(state, others) {
+      state.others = others;
+    },
+    setRestaurants(state, restaurants) {
+      state.restaurants = restaurants;
     },
   },
   actions: {
@@ -52,7 +64,22 @@ export default new Vuex.Store({
     },
     async loadServices({ commit }) {
       try {
-        const { data: services } = await axios.get("/api.services");
+        const { data: services } = await axios.get("/api/services");
+
+        const amenities = [];
+        const others = [];
+        const restaurants = [];
+
+        services.forEach((item) => {
+          if (item.serviceType === "Amenity") amenities.push(item);
+          if (item.serviceType === "Others") others.push(item);
+          if (item.serviceType === "Restaurant") restaurants.push(item);
+        });
+
+        commit("setAmenities", amenities);
+        commit("setOthers", others);
+        commit("setRestaurants", restaurants);
+
         commit("setServiceObjects", services);
       } catch (err) {
         console.error(err);

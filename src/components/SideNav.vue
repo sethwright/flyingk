@@ -28,9 +28,9 @@
     <v-divider></v-divider>
     <v-select
       placeholder="Other Services"
-      item-text="service"
-      item-value="service"
-      :items="services"
+      item-text="serviceName"
+      item-value="serviceName"
+      :items="others"
       chips
       multiple
     ></v-select>
@@ -39,9 +39,9 @@
     <v-divider></v-divider>
     <v-select
       placeholder="Amenities"
-      item-text="amenity"
-      item-value="amenity"
-      :items="services"
+      item-text="serviceName"
+      item-value="serviceName"
+      :items="amenities"
       chips
       multiple
     ></v-select>
@@ -61,9 +61,9 @@
     <v-divider></v-divider>
     <v-select
       placeholder="Restaurants"
-      item-text="restaurant"
-      item-value="restaurant"
-      :items="services"
+      item-text="serviceName"
+      item-value="serviceName"
+      :items="restaurants"
       chips
       multiple
     ></v-select>
@@ -82,6 +82,15 @@ export default {
     },
     services() {
       return this.$store.state.serviceObjects;
+    },
+    amenities() {
+      return this.$store.state.amenities;
+    },
+    others() {
+      return this.$store.state.others;
+    },
+    restaurants() {
+      return this.$store.state.restaurants;
     },
     locations() {
       return this.$store.state.locationObjects;
