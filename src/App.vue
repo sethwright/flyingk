@@ -1,33 +1,36 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-    <div>
+  <v-app>
+    <v-app-bar app color="primary" dark clipped-left>
+      <v-toolbar-title class="d-flex align-center">
+        <h1>Flying K</h1>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+    </v-app-bar>
+    <SideNav />
+    <v-main>
       <Map />
-    </div>
-  </div>
+      <List />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
 import Map from "./components/Map";
+import SideNav from "./components/SideNav";
+import List from "./components/List";
 
 export default {
-  name: "app",
+  name: "App",
+
   components: {
-    HelloWorld,
     Map,
+    SideNav,
+    List,
   },
+
+  data: () => ({
+    //
+  }),
 };
 </script>
-
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
