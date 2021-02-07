@@ -10,7 +10,8 @@
     <SideNav />
     <v-main>
       <Map />
-      <List />
+      <List v-if="cardOpen === false" />
+      <Card v-else />
     </v-main>
   </v-app>
 </template>
@@ -19,6 +20,7 @@
 import Map from "./components/Map";
 import SideNav from "./components/SideNav";
 import List from "./components/List";
+import Card from "./components/Card";
 
 export default {
   name: "App",
@@ -26,6 +28,7 @@ export default {
     Map,
     SideNav,
     List,
+    Card,
   },
   computed: {
     selectedLocation: function() {
@@ -36,6 +39,9 @@ export default {
     },
     completeLocations: function() {
       return this.$store.state.completeLocations;
+    },
+    cardOpen: function() {
+      return this.$store.state.cardOpen;
     },
   },
   mounted() {

@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     locations: [],
     locationObjects: [],
+    displayedObjects: [],
     serviceObjects: [],
     amenities: [],
     others: [],
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     selectedLocation: {},
     completeLocations: {},
     drawer: false,
+    cardOpen: false,
   },
   mutations: {
     setLocations(state, locations) {
@@ -32,6 +34,9 @@ export default new Vuex.Store({
     setDrawer(state, toggle) {
       state.drawer = toggle;
     },
+    setCard(state, toggle) {
+      state.cardOpen = toggle;
+    },
     setCompleteLocations(state, completeLocations) {
       state.completeLocations = completeLocations;
     },
@@ -43,6 +48,9 @@ export default new Vuex.Store({
     },
     setRestaurants(state, restaurants) {
       state.restaurants = restaurants;
+    },
+    setDisplayObjects(state, displayObjects) {
+      state.displayedObjects = displayObjects;
     },
   },
   actions: {
@@ -82,7 +90,7 @@ export default new Vuex.Store({
         //   key: location.name,
         //   defaultAnimation: 2,
         // }));
-
+        commit("setDisplayObjects", locationsArray);
         commit("setLocationObjects", locationsArray);
         // commit("setLocations", markers);
       } catch (err) {
@@ -91,6 +99,7 @@ export default new Vuex.Store({
     },
     selectLocation: function({ commit }, loc) {
       commit("setSelectedLocation", loc);
+      commit("setCard", true);
     },
     async loadServices({ commit }) {
       try {
@@ -114,30 +123,50 @@ export default new Vuex.Store({
         console.error(err);
       }
     },
-    // async loadLocationServices({ commit }) {
-    //   try {
-    //     const { data: locationServices } = await axios.get(
-    //       "/api/services/locations"
-    //     );
-    //     const finalLocations = {};
-    //     locationServices.forEach((location) => {
-    //       if (!finalLocations[location.location_id]) {
-    //         finalLocations[location.location_id] = location;
-    //         finalLocations[location.location_id].services = [];
-    //       }
-    //       finalLocations[location.location_id].services.push(
-    //         location.servicename
-    //       );
-    //     });
-    //     commit("setCompleteLocations", finalLocations);
-    //   } catch (err) {
-    //     console.error(err);
-    //   }
-    // },
+    filterByCity({ commit, state }, filterCity) {
+      const locations = state.displayedObjects;
+      const filteredLocations = locations.filter(
+        (location) => location.city === filterCity
+      );
+      commit("setLocationObjects", filteredLocations);
+    },
+    filterByState({ commit, state }, filterState) {
+      const locations = state.displayedObjects;
+      const filteredLocations = locations.filter(
+        (location) => location.state === filterState
+      );
+      commit("setLocationObjects", filteredLocations);
+    },
+    filterByType({ commit, state }, filterType) {
+      const locations = state.displayedObjects;
+      const filteredLocations = locations.filter(
+        (location) => location.type === filterType
+      );
+      commit("setLocationObjects", filteredLocations);
+    },
+    clearFilter({ commit, state }) {
+      commit("setLocationObjects", state.displayedObjects);
+    },
+    filterByService({ commit, state }, filterService) {
+      const locations = state.locationObjects;
+      const filtered = locations.filter((location) => {
+        return location.services.includes(filterService[0]);
+      });
+      commit("setLocationObjects", filtered);
+    },
   },
   getters: {
     drawerState: function(state) {
       return state.drawer;
+    },
+    cardState: function(state) {
+      return state.cardOpen;
+    },
+    getLocationObjects(state) {
+      return state.locationObjects;
+    },
+    getDisplayedObjects(state) {
+      return state.displayedObjects;
     },
   },
 });
