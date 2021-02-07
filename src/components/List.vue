@@ -17,16 +17,20 @@
 <script>
 export default {
   mounted() {
-    this.getLocationObjects;
+    this.getLocationObjects();
+    this.getServices();
   },
   computed: {
     locationObjects() {
-      return this.$store.state.locationObjects;
+      return this.$store.state.completeLocations;
     },
   },
   methods: {
     toggleModal: function(loc) {
       this.$store.dispatch("selectLocation", loc);
+    },
+    getServices: function() {
+      this.$store.dispatch("loadServices");
     },
   },
 };
