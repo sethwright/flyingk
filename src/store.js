@@ -48,18 +48,37 @@ export default new Vuex.Store({
   actions: {
     async loadMarkers({ commit }) {
       try {
-        const { data: locations } = await axios.get("/api/locations"); // ES6 destructuring & aliasing
-        const markers = locations.map((location) => ({
-          position: {
-            lat: location.latitude,
-            lng: location.longitude,
-          },
-          key: location.name,
-          defaultAnimation: 2,
-        }));
+        const { data: locations } = await axios.get("/api/services/locations"); // ES6 destructuring & aliasing
 
-        commit("setLocationObjects", locations);
-        commit("setLocations", markers);
+        const finalLocations = {};
+
+        locations.forEach((location) => {
+          if (!finalLocations[location.location_id]) {
+            finalLocations[location.location_id] = location;
+            finalLocations[location.location_id].services = [];
+          }
+          finalLocations[location.location_id].services.push(
+            location.servicename
+          );
+        });
+
+        const locationsArray = [];
+
+        for (let loc in finalLocations) {
+          locationsArray.push(loc);
+        }
+
+        // const markers = locations.map((location) => ({
+        //   position: {
+        //     lat: location.latitude,
+        //     lng: location.longitude,
+        //   },
+        //   key: location.name,
+        //   defaultAnimation: 2,
+        // }));
+
+        commit("setLocationObjects", locationsArray);
+        // commit("setLocations", markers);
       } catch (err) {
         console.error(err);
       }
