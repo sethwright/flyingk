@@ -65,14 +65,13 @@ export default new Vuex.Store({
         const locationsArray = [];
 
         for (let loc in finalLocations) {
-          console.log(loc);
-          // loc.position = {
-          //   lat: loc.latitude,
-          //   lng: loc.longitude,
-          // };
-          // loc.key = loc.name;
-          // loc.defaultAnimation = 2;
-          locationsArray.push(loc);
+          finalLocations[loc].position = {
+            lat: loc.latitude,
+            lng: loc.longitude,
+          };
+          finalLocations[loc].key = loc.name;
+          finalLocations[loc].defaultAnimation = 2;
+          locationsArray.push(finalLocations[loc]);
         }
 
         // const markers = locations.map((location) => ({
