@@ -69,7 +69,8 @@ export default new Vuex.Store({
             lat: loc.latitude,
             lng: loc.longitude,
           };
-          (loc.key = loc.name), (loc.defaultAnimation = 2);
+          loc.key = loc.name;
+          loc.defaultAnimation = 2;
           locationsArray.push(loc);
         }
 
