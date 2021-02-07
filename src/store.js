@@ -66,10 +66,10 @@ export default new Vuex.Store({
 
         for (let loc in finalLocations) {
           finalLocations[loc].position = {
-            lat: loc.latitude,
-            lng: loc.longitude,
+            lat: finalLocations[loc].latitude,
+            lng: finalLocations[loc].longitude,
           };
-          finalLocations[loc].key = loc.name;
+          finalLocations[loc].key = finalLocations[loc].name;
           finalLocations[loc].defaultAnimation = 2;
           locationsArray.push(finalLocations[loc]);
         }
