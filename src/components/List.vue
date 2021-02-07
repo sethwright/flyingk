@@ -17,7 +17,7 @@
 <script>
 export default {
   mounted() {
-    this.getLocationObjects;
+    this.getServices();
   },
   computed: {
     locationObjects() {
@@ -27,6 +27,9 @@ export default {
   methods: {
     toggleModal: function(loc) {
       this.$store.dispatch("selectLocation", loc);
+    },
+    getServices: function() {
+      this.$store.dispatch("loadServices");
     },
   },
 };

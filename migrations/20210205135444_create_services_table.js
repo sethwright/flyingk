@@ -2,9 +2,9 @@ exports.up = function(knex) {
   return knex.schema.createTable("services", (table) => {
     table.increments().index();
 
-    table.text("serviceType");
+    table.text("servicetype");
 
-    table.text("serviceName");
+    table.text("servicename");
 
     table.text("img");
   });

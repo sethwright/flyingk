@@ -10,8 +10,8 @@
     <SideNav />
     <v-main>
       <Map />
-      <List />
-      <Card />
+      <List v-if="cardOpen === false" />
+      <Card v-else />
     </v-main>
   </v-app>
 </template>
@@ -37,12 +37,24 @@ export default {
     drawer: function() {
       return this.$store.state.drawer;
     },
+    completeLocations: function() {
+      return this.$store.state.completeLocations;
+    },
+    cardOpen: function() {
+      return this.$store.state.cardOpen;
+    },
+  },
+  mounted() {
+    this.getCompleteLocations();
   },
   data: () => ({}),
   methods: {
     toggleDrawer: function() {
       this.$store.commit("setDrawer", !this.$store.state.drawer);
     },
+    // getCompleteLocations() {
+    //   this.$store.dispatch("loadLocationServices");
+    // },
   },
 };
 </script>
