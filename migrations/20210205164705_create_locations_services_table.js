@@ -3,12 +3,12 @@ exports.up = function(knex) {
     table.increments().index();
 
     table
-      .integer("locationID")
+      .integer("location_id")
       .references("id")
       .inTable("locations");
 
     table
-      .integer("serviceID")
+      .integer("service_id")
       .references("id")
       .inTable("services");
   });

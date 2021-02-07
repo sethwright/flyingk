@@ -21,6 +21,8 @@ module.exports = async () => {
       const address = location.Addresses[0].Address1;
       const state = location.Addresses[0].State;
       const city = location.Addresses[0].City;
+      const highway = location.Site.Highway;
+      const exit_num = location.Site.ExitNumber;
       let telephone;
       let fax;
       let unleaded;
@@ -61,6 +63,8 @@ module.exports = async () => {
         }
       });
 
+      const location_id = id;
+
       // Acquiring contact details.
 
       for (let contact of location.ContactMethods) {
@@ -87,70 +91,89 @@ module.exports = async () => {
         premium,
         diesel,
         propane,
+        highway,
+        exit_num,
       });
 
       //ADDIN TO SERVICES TABLE Check services. Loop through 'ADDITIONAL AMENITIES', 'CUSTOM FIELDS' and 'site.concepts' if service exists, skip. If not, assign value.
-      let serviceType;
-      let serviceName;
+      let servicetype;
+      let servicename;
       let img;
 
       for (let service of location.AdditionalAmenities) {
-        serviceType = "Amenity";
-        serviceName = service.SiteManagementItem.Title;
+        servicetype = "Amenity";
+        servicename = service.SiteManagementItem.Title;
         img = undefined;
-        if (!servicesCache[serviceName]) {
-          servicesCache[serviceName] = serviceName;
+        if (!servicesCache[servicename]) {
+          servicesCache[servicename] = servicename;
           // if service is undefined in PSQL, add to services table:
           await db("services").insert({
-            serviceType,
-            serviceName,
+            servicetype,
+            servicename,
             img,
           });
         }
+        const service_return = await db
+          .from("services")
+          .select("id")
+          .where("servicename", servicename);
+
+        const service_id = service_return[0].id;
+
+        await db("locations_services").insert({
+          location_id,
+          service_id,
+        });
       }
 
       for (let service of location.CustomFields) {
-        serviceType = "Others";
-        serviceName = service.CustomField.Label;
+        servicetype = "Others";
+        servicename = service.CustomField.Label;
         img = service.CustomField.FacilityLogo;
 
-        if (!servicesCache[serviceName]) {
-          servicesCache[serviceName] = serviceName;
+        if (!servicesCache[servicename]) {
+          servicesCache[servicename] = servicename;
           await db("services").insert({
-            serviceType,
-            serviceName,
+            servicetype,
+            servicename,
             img,
           });
         }
-
-        const locationID = id;
-
-        const serviceObj = await db
+        const service_return = await db
           .from("services")
           .select("id")
-          .where("serviceName", serviceName);
+          .where("servicename", servicename);
 
-        const serviceID = serviceObj[0].id; // FIX the bug here
-
+        const service_id = service_return[0].id;
         await db("locations_services").insert({
-          locationID,
-          serviceID,
+          location_id,
+          service_id,
         });
       }
 
       for (let concept of location.Site.Concepts) {
-        serviceType = "Restaurant";
-        serviceName = concept.Concept.Name;
+        servicetype = "Restaurant";
+        servicename = concept.Concept.Name;
         img = concept.Concept.ConceptIcon;
 
-        if (!servicesCache[serviceName]) {
-          servicesCache[serviceName] = serviceName;
+        if (!servicesCache[servicename]) {
+          servicesCache[servicename] = servicename;
           await db("services").insert({
-            serviceType,
-            serviceName,
+            servicetype,
+            servicename,
             img,
           });
         }
+        const service_return = await db
+          .from("services")
+          .select("id")
+          .where("servicename", servicename);
+
+        const service_id = service_return[0].id;
+        await db("locations_services").insert({
+          location_id,
+          service_id,
+        });
       }
     }
   } catch (err) {
