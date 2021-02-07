@@ -6,7 +6,7 @@ const db = knex({
     connectionString:
       process.env.DATABASE_URL ||
       `postgres://postgres:vizio1@127.0.0.1:5432/truckstop`,
-    // ssl: { rejectUnauthorized: false },
+    ssl: { rejectUnauthorized: false },
   },
   searchPath: "public",
   // migrations: {
