@@ -46,9 +46,9 @@ export default {
     toggleDrawer: function() {
       this.$store.commit("setDrawer", !this.$store.state.drawer);
     },
-    getCompleteLocations() {
-      this.$store.dispatch("loadLocationServices");
-    },
+    // getCompleteLocations() {
+    //   this.$store.dispatch("loadLocationServices");
+    // },
   },
 };
 </script>

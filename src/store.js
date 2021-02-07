@@ -89,26 +89,26 @@ export default new Vuex.Store({
         console.error(err);
       }
     },
-    async loadLocationServices({ commit }) {
-      try {
-        const { data: locationServices } = await axios.get(
-          "/api/services/locations"
-        );
-        const finalLocations = {};
-        locationServices.forEach((location) => {
-          if (!finalLocations[location.location_id]) {
-            finalLocations[location.location_id] = location;
-            finalLocations[location.location_id].services = [];
-          }
-          finalLocations[location.location_id].services.push(
-            location.servicename
-          );
-        });
-        commit("setCompleteLocations", finalLocations);
-      } catch (err) {
-        console.error(err);
-      }
-    },
+    // async loadLocationServices({ commit }) {
+    //   try {
+    //     const { data: locationServices } = await axios.get(
+    //       "/api/services/locations"
+    //     );
+    //     const finalLocations = {};
+    //     locationServices.forEach((location) => {
+    //       if (!finalLocations[location.location_id]) {
+    //         finalLocations[location.location_id] = location;
+    //         finalLocations[location.location_id].services = [];
+    //       }
+    //       finalLocations[location.location_id].services.push(
+    //         location.servicename
+    //       );
+    //     });
+    //     commit("setCompleteLocations", finalLocations);
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // },
   },
   getters: {
     drawerState: function(state) {
