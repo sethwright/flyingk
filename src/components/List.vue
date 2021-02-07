@@ -17,12 +17,11 @@
 <script>
 export default {
   mounted() {
-    this.getLocationObjects();
     this.getServices();
   },
   computed: {
     locationObjects() {
-      return this.$store.state.completeLocations;
+      return this.$store.state.locationObjects;
     },
   },
   methods: {
