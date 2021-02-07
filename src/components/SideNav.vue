@@ -83,9 +83,6 @@ export default {
     services() {
       return this.$store.state.serviceObjects;
     },
-    locations() {
-      return this.$store.state.locationObjects;
-    },
     amenities() {
       return this.$store.state.amenities;
     },
@@ -94,6 +91,9 @@ export default {
     },
     restaurants() {
       return this.$store.state.restaurants;
+    },
+    locations() {
+      return this.$store.state.locationObjects;
     },
   },
   methods: {
