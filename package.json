@@ -6,7 +6,7 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "hack": "concurrently \"yarn hack:server\" \"yarn hack:client\"",
+    "hack": "concurrently \"npm run hack:server\" \"npm run hack:client\"",
     "hack:client": "vue-cli-service serve",
     "hack:server": "nodemon server",
     "start": "node server"

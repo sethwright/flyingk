@@ -26,7 +26,9 @@ export default {
   },
   computed: {
     locations() {
-      return this.$store.state.locationObjects;
+      const locs = this.$store.state.locationObjects;
+      console.log(locs);
+      return locs;
     },
     google: gmapApi,
   },
