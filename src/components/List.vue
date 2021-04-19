@@ -1,6 +1,5 @@
 <template>
   <v-container class="listContainer" fluid>
-    <!-- <v-overlay value="false"/> -->
     <v-card
       v-for="location in locationObjects"
       :key="location.name"
