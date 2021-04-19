@@ -1,42 +1,26 @@
 <h1 align="center">FlyingK</h1>
-<h2>About</h2>
-This was created during a team project at Code Chrysalis.
 
-- Team members
+<img src="./flyingk.png">
 
-  - Nick
-  - Mai
-  - Seth
-  - Fred
+## About
 
-<h2>Goal</h2>
+Created during a team project at Code Chrysalis by following contributors:
 
-- Seed and Migrate database using knex.
-- Create a MVP related to all the personas story.
-- Be able to document your App for other developers to use.
-- Write tests for your App.
+- [Seth](https://github.com/sethwright)
+- [Nick](https://github.com/ntaylor6422)
+- [Mai](https://github.com/maiasaumi)
+- [Fred](https://github.com/oFrederic)
 
-<h2>Key learnings</h2>
+## Project Goals
 
-- Vue
-- Vuex
-- Vuetify
-- Postgres
-- Knex
-- Heroku
+FlyingK is a concept 'minimum viable product' app demonstrating integration of our desired tech stack and build with CI, CD principles.
 
-  <h2>Requirements</h2>
+Frontend is a mobile-friendly, responsive design built in Vue, Vuex, Veutify, and implimenting Google Maps JS API.
+Backend is a Node.JS + Express server that runs data migrations via Knex to a Postgres DB.
 
-- An Express server that:
-  - has a read endpoint for reading from your database (GET)
-- A basic frontend
-- Migration files
-- A script that will set up and seed a database
-- A demo
-- Deploy your code to Heroku
-- Write tests for your App
+Developed in short sprints: code, merge, deploy to staging server.
 
-<h2>How it works ?</h2>
+## App Concept
 
 Want to know where is the nearest FlyingK, load this app.
 At first the App will be loaded with all the shop marked.
@@ -47,5 +31,29 @@ You can now filtering using the nav bar :
 - Amenities
 - Store Type
 - Restaurants
-  <h2>Project status</h2>
-  Work in progress!!!
+
+## Want to give it a try?
+
+1. First clone the repository to your local machine
+```
+git clone https://github.com/sethwright/flyingk.git
+```
+
+2. Install all dependencies
+```
+npm install
+```
+
+3. This app requires developer keys from Google Maps API, please refer to the [official documentation](https://developers.google.com/maps/documentation/javascript/cloud-setup) for more info.
+
+4. Once you have your keys, it can be placed in src/main.js where indicated.
+
+5. Install Postgress and create a database called 'truckstop'
+
+6. Run
+
+```
+npm run hack
+```
+
+Open the localhost and enjoy the drive 😎

@@ -3,7 +3,7 @@ const app = require("./app");
 const db = require("./knex");
 const seeder = require("../data/import");
 
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 9010;
 
 (async () => {
   try {

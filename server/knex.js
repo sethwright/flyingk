@@ -1,6 +1,7 @@
+// this file is configuration for connecting knex
+
 const knex = require("knex");
 const db = knex({
-  // this is configuration
   client: "pg",
   connection: {
     connectionString:
